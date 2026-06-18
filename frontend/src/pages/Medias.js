@@ -83,10 +83,10 @@ const Medias = () => {
           {medias.map((m) => (
             <div key={m.id} className="media-item">
               {m.type === 'photo' ? (
-                <img src={`http://localhost:5000${m.url}`} alt={m.titre} />
-              ) : (
-                <video controls src={`http://localhost:5000${m.url}`} />
-              )}
+  <img src={`https://daara-massalick-backend.onrender.com${m.url}`} alt={m.titre} />
+) : (
+  <video controls src={`https://daara-massalick-backend.onrender.com${m.url}`} />
+)}
               <div className="media-item-info">
                 <p>{m.titre}</p>
                 <span>{m.evenement || 'Sans événement'} — {m.type}</span>

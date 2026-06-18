@@ -69,15 +69,15 @@ const Xassida = () => {
               <p style={{ fontSize: 11 }}>{x.langue} — {x.categorie || 'Sans catégorie'}</p>
               <div className="book-actions">
                 {x.fichier_pdf && (
-                  <a href={`http://localhost:5000${x.fichier_pdf}`}
-                    target="_blank" rel="noreferrer"
-                    className="btn btn-secondary btn-sm">📄 PDF</a>
-                )}
-                {x.fichier_audio && (
-                  <a href={`http://localhost:5000${x.fichier_audio}`}
-                    target="_blank" rel="noreferrer"
-                    className="btn btn-secondary btn-sm">🎵 Audio</a>
-                )}
+  <a href={`https://daara-massalick-backend.onrender.com${x.fichier_pdf}`}
+    target="_blank" rel="noreferrer"
+    className="btn btn-secondary btn-sm">📄 PDF</a>
+)}
+{x.fichier_audio && (
+  <a href={`https://daara-massalick-backend.onrender.com${x.fichier_audio}`}
+    target="_blank" rel="noreferrer"
+    className="btn btn-secondary btn-sm">🎵 Audio</a>
+)}
                 <button className="btn btn-danger btn-sm"
                   onClick={() => handleSupprimer(x.id, x.titre)}>
                   Supprimer
