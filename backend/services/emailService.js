@@ -1,18 +1,8 @@
-const nodemailer = require('nodemailer');
+const brevo = require('@getbrevo/brevo');
 require('dotenv').config();
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-  connectionTimeout: 20000,
-  greetingTimeout: 20000,
-  socketTimeout: 20000,
-});
+const apiInstance = new brevo.TransactionalEmailsApi();
+apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
 
 exports.envoyerEmailCreationCompte = async (email, prenom, token) => {
   const lien = `${process.env.FRONTEND_URL}/creer-mot-de-passe/${token}`;
@@ -40,10 +30,11 @@ exports.envoyerEmailCreationCompte = async (email, prenom, token) => {
     </div>
   `;
 
-  await transporter.sendMail({
-    from: `"Daara Massalick" <${process.env.EMAIL_USER}>`,
-    to: email,
-    subject: 'Créez votre mot de passe — Daara Massalick',
-    html,
-  });
+  const sendSmtpEmail = new brevo.SendSmtpEmail();
+  sendSmtpEmail.subject = 'Créez votre mot de passe — Daara Massalick';
+  sendSmtpEmail.htmlContent = html;
+  sendSmtpEmail.sender = { name: 'Daara Massalick', email: process.env.EMAIL_USER };
+  sendSmtpEmail.to = [{ email }];
+
+  await apiInstance.sendTransacEmail(sendSmtpEmail);
 };
