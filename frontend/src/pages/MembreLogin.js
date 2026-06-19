@@ -56,6 +56,13 @@ const MembreLogin = () => {
             {chargement ? 'Connexion...' : '🔐 Se connecter'}
           </button>
         </form>
+
+        <p style={{ textAlign: 'center', marginTop: 20, fontSize: 13, color: '#888' }}>
+          Vous êtes administrateur ?{' '}
+          <a href="/login" style={{ color: '#1a472a', fontWeight: 600, textDecoration: 'none' }}>
+            Accéder à l'espace administrateur
+          </a>
+        </p>
       </div>
     </div>
   );

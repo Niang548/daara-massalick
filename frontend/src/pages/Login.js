@@ -5,7 +5,7 @@ import { login } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
-  const [form, setForm]             = useState({ email: '', mot_de_passe: '' });
+  const [form, setForm] = useState({ email: '', mot_de_passe: '' });
   const [chargement, setChargement] = useState(false);
   const { connexion } = useAuth();
   const navigate = useNavigate();
@@ -113,6 +113,13 @@ const Login = () => {
             {chargement ? 'Connexion...' : '🔐 Se connecter'}
           </button>
         </form>
+
+        <p style={{ textAlign: 'center', marginTop: 20, fontSize: 13, color: '#888' }}>
+          Vous êtes membre du Daara ?{' '}
+          <a href="/membre/login" style={{ color: '#1a472a', fontWeight: 600, textDecoration: 'none' }}>
+            Accéder à votre espace membre
+          </a>
+        </p>
       </div>
     </div>
   );
