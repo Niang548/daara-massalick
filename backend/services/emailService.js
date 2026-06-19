@@ -1,8 +1,5 @@
-const SibApiV3Sdk = require('@getbrevo/brevo');
+const axios = require('axios');
 require('dotenv').config();
-
-const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-apiInstance.authentications['apiKey'].apiKey = process.env.BREVO_API_KEY;
 
 exports.envoyerEmailCreationCompte = async (email, prenom, token) => {
   const lien = `${process.env.FRONTEND_URL}/creer-mot-de-passe/${token}`;
@@ -30,11 +27,21 @@ exports.envoyerEmailCreationCompte = async (email, prenom, token) => {
     </div>
   `;
 
-  const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
-  sendSmtpEmail.subject = 'Créez votre mot de passe — Daara Massalick';
-  sendSmtpEmail.htmlContent = html;
-  sendSmtpEmail.sender = { name: 'Daara Massalick', email: process.env.EMAIL_USER };
-  sendSmtpEmail.to = [{ email }];
-
-  await apiInstance.sendTransacEmail(sendSmtpEmail);
+  await axios.post(
+    'https://api.brevo.com/v3/smtp/email',
+    {
+      sender: { name: 'Daara Massalick', email: process.env.EMAIL_USER },
+      to: [{ email }],
+      subject: 'Créez votre mot de passe — Daara Massalick',
+      htmlContent: html,
+    },
+    {
+      headers: {
+        'api-key': process.env.BREVO_API_KEY,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      timeout: 20000,
+    }
+  );
 };
