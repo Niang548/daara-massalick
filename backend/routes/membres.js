@@ -7,5 +7,6 @@ router.get('/:id',    ctrl.getMembreById);
 router.post('/',      ctrl.creerMembre);
 router.put('/:id',    ctrl.modifierMembre);
 router.delete('/:id', ctrl.supprimerMembre);
+router.delete('/:id/definitif', ctrl.supprimerMembreDefinitivement);
 
 module.exports = router;

@@ -125,3 +125,11 @@ exports.supprimerMembre = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+exports.supprimerMembreDefinitivement = async (req, res) => {
+  try {
+    await db.query('DELETE FROM membres WHERE id = ?', [req.params.id]);
+    res.json({ success: true, message: 'Membre supprimé définitivement' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};

@@ -15,6 +15,7 @@ export const getMembreById    = (id)        => API.get(`/membres/${id}`);
 export const creerMembre      = (data)      => API.post('/membres', data);
 export const modifierMembre   = (id, data)  => API.put(`/membres/${id}`, data);
 export const supprimerMembre  = (id)        => API.delete(`/membres/${id}`);
+export const supprimerMembreDefinitivement = (id) => API.delete(`/membres/${id}/definitif`);
 
 export const getCotisations       = (params)   => API.get('/cotisations', { params });
 export const getStatsCotisations  = ()         => API.get('/cotisations/stats');

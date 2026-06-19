@@ -10,6 +10,7 @@ import Sidebar from './components/Sidebar';
 import Login        from './pages/Login';
 import Dashboard     from './pages/Dashboard';
 import Membres       from './pages/Membres';
+import ModifierMembre from './pages/ModifierMembre';
 import Inscription   from './pages/Inscription';
 import Cotisations   from './pages/Cotisations';
 import Xassida       from './pages/Xassida';
@@ -56,6 +57,9 @@ const App = () => {
             <Route path="/membres" element={
               <RouteProtegee><Layout><Membres /></Layout></RouteProtegee>
             }/>
+            <Route path="/membres/:id/modifier" element={
+  <RouteProtegee><Layout><ModifierMembre /></Layout></RouteProtegee>
+}/>
             <Route path="/inscription" element={
               <RouteProtegee><Layout><Inscription /></Layout></RouteProtegee>
             }/>

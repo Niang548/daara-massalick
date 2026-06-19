@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
-import { getMembres, supprimerMembre } from '../services/api';
+import { getMembres, supprimerMembre, supprimerMembreDefinitivement } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
 const Membres = () => {
@@ -24,11 +24,22 @@ const Membres = () => {
 
   useEffect(() => { charger(); }, [charger]);
 
-  const handleSupprimer = async (id, nom) => {
-    if (!window.confirm(`Désactiver le membre ${nom} ?`)) return;
+  const handleDesactiver = async (id, nom) => {
+    if (!window.confirm(`Désactiver le membre ${nom} ?\n\nIl restera dans la base de données mais ne sera plus visible dans les listes actives.`)) return;
     try {
       await supprimerMembre(id);
       toast.success('Membre désactivé');
+      charger();
+    } catch {
+      toast.error('Erreur lors de la désactivation');
+    }
+  };
+
+  const handleSupprimerDefinitif = async (id, nom) => {
+    if (!window.confirm(`⚠️ ATTENTION : Supprimer DÉFINITIVEMENT le membre ${nom} ?\n\nCette action est IRRÉVERSIBLE. Toutes ses cotisations seront aussi supprimées.`)) return;
+    try {
+      await supprimerMembreDefinitivement(id);
+      toast.success('Membre supprimé définitivement');
       charger();
     } catch {
       toast.error('Erreur lors de la suppression');
@@ -53,10 +64,10 @@ const Membres = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
           <select value={statut} onChange={(e) => setStatut(e.target.value)}>
-  <option value="">Tous les statuts</option>
-  <option value="membre">Membre</option>
-  <option value="sympathisant">Sympathisant</option>
-</select>
+            <option value="">Tous les statuts</option>
+            <option value="membre">Membre</option>
+            <option value="sympathisant">Sympathisant</option>
+          </select>
           <button className="btn btn-primary" onClick={charger}>Filtrer</button>
         </div>
 
@@ -96,12 +107,26 @@ const Membres = () => {
                         : '—'}
                     </td>
                     <td>
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => handleSupprimer(m.id, `${m.prenom} ${m.nom}`)}
-                      >
-                        Désactiver
-                      </button>
+                      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                        <button
+                          className="btn btn-secondary btn-sm"
+                          onClick={() => navigate(`/membres/${m.id}/modifier`)}
+                        >
+                          ✏️ Modifier
+                        </button>
+                        <button
+                          className="btn btn-secondary btn-sm"
+                          onClick={() => handleDesactiver(m.id, `${m.prenom} ${m.nom}`)}
+                        >
+                          Désactiver
+                        </button>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleSupprimerDefinitif(m.id, `${m.prenom} ${m.nom}`)}
+                        >
+                          🗑️ Supprimer
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
