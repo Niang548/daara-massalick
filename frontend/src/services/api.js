@@ -45,3 +45,9 @@ export const register = (data) => API.post('/auth/register', data);
 export const verifierToken      = (token)       => API.get(`/membre-auth/verifier-token/${token}`);
 export const creerMotDePasse    = (token, data) => API.post(`/membre-auth/creer-mot-de-passe/${token}`, data);
 export const loginMembre        = (data)        => API.post('/membre-auth/login', data);
+export const getMesCotisations = () => API.get('/membre-auth/mes-cotisations', {
+  headers: { Authorization: `Bearer ${localStorage.getItem('membre_token')}` }
+});
+export const getMonProfil = () => API.get('/membre-auth/mon-profil', {
+  headers: { Authorization: `Bearer ${localStorage.getItem('membre_token')}` }
+});
