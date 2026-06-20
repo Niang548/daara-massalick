@@ -14,6 +14,7 @@ const Sidebar = () => {
   const liens = [
     { to: '/',            icon: '🏠', label: 'Tableau de bord' },
     { to: '/membres',     icon: '👥', label: 'Membres'         },
+    { to: '/en-attente',  icon: '📥', label: 'Demandes en attente' },
     { to: '/inscription', icon: '📝', label: 'Inscription'     },
     { to: '/cotisations', icon: '💰', label: 'Cotisations'     },
     { to: '/xassida',     icon: '📚', label: 'Xassida'         },

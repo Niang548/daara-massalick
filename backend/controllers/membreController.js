@@ -133,3 +133,100 @@ exports.supprimerMembreDefinitivement = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+exports.inscriptionPublique = async (req, res) => {
+  try {
+    const {
+      prenom, nom, telephone, email,
+      date_naissance, sexe, adresse,
+      statut, niveau_coranique, contact_urgence
+    } = req.body;
+
+    if (!prenom || !nom || !telephone)
+      return res.status(400).json({
+        success: false,
+        message: 'Prénom, nom et téléphone sont obligatoires'
+      });
+
+    const [result] = await db.query(
+      `INSERT INTO membres
+       (prenom, nom, telephone, email, date_naissance,
+        sexe, adresse, statut, niveau_coranique, contact_urgence, statut_validation)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'en_attente')`,
+      [
+        prenom, nom, telephone,
+        email || null,
+        date_naissance || null,
+        sexe || null,
+        adresse || null,
+        statut || 'membre',
+        niveau_coranique || null,
+        contact_urgence || null
+      ]
+    );
+
+    res.status(201).json({
+      success: true,
+      message: 'Votre demande d\'inscription a été envoyée. L\'administration va l\'examiner.',
+      id: result.insertId
+    });
+  } catch (err) {
+    if (err.code === 'ER_DUP_ENTRY')
+      return res.status(400).json({
+        success: false,
+        message: 'Ce numéro de téléphone est déjà enregistré'
+      });
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+exports.getMembresEnAttente = async (req, res) => {
+  try {
+    const [rows] = await db.query(
+      "SELECT * FROM membres WHERE statut_validation = 'en_attente' ORDER BY created_at DESC"
+    );
+    res.json({ success: true, data: rows });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+exports.validerMembre = async (req, res) => {
+  try {
+    await db.query(
+      "UPDATE membres SET statut_validation = 'valide' WHERE id = ?",
+      [req.params.id]
+    );
+
+    const [rows] = await db.query('SELECT * FROM membres WHERE id = ?', [req.params.id]);
+    const membre = rows[0];
+
+    if (membre.email) {
+      try {
+        const token = crypto.randomBytes(32).toString('hex');
+        const expiration = new Date(Date.now() + 48 * 60 * 60 * 1000);
+
+        await db.query(
+          'UPDATE membres SET token_creation = ?, token_expiration = ? WHERE id = ?',
+          [token, expiration, membre.id]
+        );
+
+        await envoyerEmailCreationCompte(membre.email, membre.prenom, token);
+      } catch (emailErr) {
+        console.error('Erreur envoi email:', emailErr.message);
+      }
+    }
+
+    res.json({ success: true, message: 'Membre validé avec succès' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+exports.rejeterMembre = async (req, res) => {
+  try {
+    await db.query('DELETE FROM membres WHERE id = ?', [req.params.id]);
+    res.json({ success: true, message: 'Demande rejetée' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};

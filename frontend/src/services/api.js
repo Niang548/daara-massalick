@@ -16,6 +16,10 @@ export const creerMembre      = (data)      => API.post('/membres', data);
 export const modifierMembre   = (id, data)  => API.put(`/membres/${id}`, data);
 export const supprimerMembre  = (id)        => API.delete(`/membres/${id}`);
 export const supprimerMembreDefinitivement = (id) => API.delete(`/membres/${id}/definitif`);
+export const inscriptionPublique  = (data) => API.post('/membres/inscription-publique', data);
+export const getMembresEnAttente  = ()     => API.get('/membres/en-attente/liste');
+export const validerMembre        = (id)   => API.put(`/membres/${id}/valider`);
+export const rejeterMembre        = (id)   => API.delete(`/membres/${id}/rejeter`);
 
 export const getCotisations       = (params)   => API.get('/cotisations', { params });
 export const getStatsCotisations  = ()         => API.get('/cotisations/stats');

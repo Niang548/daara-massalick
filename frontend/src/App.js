@@ -13,6 +13,8 @@ import Dashboard     from './pages/Dashboard';
 import Membres       from './pages/Membres';
 import ModifierMembre from './pages/ModifierMembre';
 import Inscription   from './pages/Inscription';
+import InscriptionPublique from './pages/InscriptionPublique';
+import MembresEnAttente    from './pages/MembresEnAttente';
 import Cotisations   from './pages/Cotisations';
 import Xassida       from './pages/Xassida';
 import Medias        from './pages/Medias';
@@ -74,6 +76,10 @@ const App = () => {
             <Route path="/inscription" element={
               <RouteProtegee><Layout><Inscription /></Layout></RouteProtegee>
             }/>
+            <Route path="/en-attente" element={
+  <RouteProtegee><Layout><MembresEnAttente /></Layout></RouteProtegee>
+}/>
+<Route path="/inscription-publique" element={<InscriptionPublique />} />
             <Route path="/cotisations" element={
               <RouteProtegee><Layout><Cotisations /></Layout></RouteProtegee>
             }/>
