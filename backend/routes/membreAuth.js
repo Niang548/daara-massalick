@@ -116,13 +116,16 @@ router.get('/mon-profil', jwtMiddleware, async (req, res) => {
 });
 router.put('/mon-profil', jwtMiddleware, async (req, res) => {
   try {
-    const { telephone, email, adresse, contact_urgence } = req.body;
+    const { prenom, nom, telephone, email, adresse, contact_urgence } = req.body;
+
+    if (!prenom || !nom || !telephone)
+      return res.status(400).json({ success: false, message: 'Prénom, nom et téléphone sont obligatoires' });
 
     await db.query(
       `UPDATE membres 
-       SET telephone = ?, email = ?, adresse = ?, contact_urgence = ?
+       SET prenom = ?, nom = ?, telephone = ?, email = ?, adresse = ?, contact_urgence = ?
        WHERE id = ?`,
-      [telephone, email, adresse, contact_urgence, req.membreId]
+      [prenom, nom, telephone, email, adresse, contact_urgence, req.membreId]
     );
 
     res.json({ success: true, message: 'Profil mis à jour avec succès' });

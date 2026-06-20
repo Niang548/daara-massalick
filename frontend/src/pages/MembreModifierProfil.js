@@ -6,7 +6,7 @@ import { getMonProfil, modifierMonProfil } from '../services/api';
 const MembreModifierProfil = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    telephone: '', email: '', adresse: '', contact_urgence: ''
+    prenom: '', nom: '', telephone: '', email: '', adresse: '', contact_urgence: ''
   });
   const [chargementPage, setChargementPage] = useState(true);
   const [chargement, setChargement] = useState(false);
@@ -17,6 +17,8 @@ const MembreModifierProfil = () => {
         const res = await getMonProfil();
         const p = res.data.data;
         setForm({
+          prenom: p.prenom || '',
+          nom: p.nom || '',
           telephone: p.telephone || '',
           email: p.email || '',
           adresse: p.adresse || '',
@@ -35,6 +37,10 @@ const MembreModifierProfil = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!form.prenom || !form.nom || !form.telephone) {
+      toast.error('Prénom, nom et téléphone sont obligatoires');
+      return;
+    }
     setChargement(true);
     try {
       await modifierMonProfil(form);
@@ -52,18 +58,42 @@ const MembreModifierProfil = () => {
   }
 
   return (
-    <div style={{ maxWidth: 600, margin: '40px auto', padding: '0 20px' }}>
+    <div>
+      <div className="page-header">
+        <h1>✏️ Modifier mes informations</h1>
+      </div>
+
       <div className="card">
-        <div className="card-title">✏️ Modifier mes informations</div>
         <form onSubmit={handleSubmit}>
-          <div className="form-grid" style={{ gridTemplateColumns: '1fr' }}>
+          <div className="form-grid">
             <div className="form-group">
-              <label>Téléphone</label>
+              <label>Prénom *</label>
+              <input
+                name="prenom"
+                value={form.prenom}
+                onChange={handleChange}
+                placeholder="Votre prénom"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Nom *</label>
+              <input
+                name="nom"
+                value={form.nom}
+                onChange={handleChange}
+                placeholder="Votre nom"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Téléphone *</label>
               <input
                 name="telephone"
                 value={form.telephone}
                 onChange={handleChange}
                 placeholder="+221 XX XXX XX XX"
+                required
               />
             </div>
             <div className="form-group">
@@ -76,7 +106,7 @@ const MembreModifierProfil = () => {
                 placeholder="votre@email.com"
               />
             </div>
-            <div className="form-group">
+            <div className="form-group full-width">
               <label>Adresse</label>
               <input
                 name="adresse"
@@ -85,7 +115,7 @@ const MembreModifierProfil = () => {
                 placeholder="Quartier, ville"
               />
             </div>
-            <div className="form-group">
+            <div className="form-group full-width">
               <label>Contact d'urgence</label>
               <input
                 name="contact_urgence"
