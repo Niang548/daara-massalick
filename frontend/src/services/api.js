@@ -51,3 +51,6 @@ export const getMesCotisations = () => API.get('/membre-auth/mes-cotisations', {
 export const getMonProfil = () => API.get('/membre-auth/mon-profil', {
   headers: { Authorization: `Bearer ${localStorage.getItem('membre_token')}` }
 });
+export const modifierMonProfil = (data) => API.put('/membre-auth/mon-profil', data, {
+  headers: { Authorization: `Bearer ${localStorage.getItem('membre_token')}` }
+});

@@ -104,13 +104,31 @@ router.get('/mes-cotisations', jwtMiddleware, async (req, res) => {
 router.get('/mon-profil', jwtMiddleware, async (req, res) => {
   try {
     const [rows] = await db.query(
-      'SELECT id, prenom, nom, telephone, email, adresse, statut, niveau_coranique, date_inscription FROM membres WHERE id = ?',
+      'SELECT id, prenom, nom, telephone, email, adresse, statut, niveau_coranique, contact_urgence, date_inscription FROM membres WHERE id = ?',
       [req.membreId]
     );
     if (rows.length === 0)
       return res.status(404).json({ success: false, message: 'Membre introuvable' });
     res.json({ success: true, data: rows[0] });
   } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+router.put('/mon-profil', jwtMiddleware, async (req, res) => {
+  try {
+    const { telephone, email, adresse, contact_urgence } = req.body;
+
+    await db.query(
+      `UPDATE membres 
+       SET telephone = ?, email = ?, adresse = ?, contact_urgence = ?
+       WHERE id = ?`,
+      [telephone, email, adresse, contact_urgence, req.membreId]
+    );
+
+    res.json({ success: true, message: 'Profil mis à jour avec succès' });
+  } catch (err) {
+    if (err.code === 'ER_DUP_ENTRY')
+      return res.status(400).json({ success: false, message: 'Ce numéro de téléphone est déjà utilisé par un autre membre' });
     res.status(500).json({ success: false, message: err.message });
   }
 });

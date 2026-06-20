@@ -51,9 +51,14 @@ const MembreDashboard = () => {
             </h1>
             <p style={{ fontSize: 13, color: '#888' }}>{membre?.email}</p>
           </div>
-          <button className="btn btn-secondary" onClick={handleDeconnexion}>
-            🚪 Déconnexion
-          </button>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button className="btn btn-secondary" onClick={() => navigate('/membre/modifier-profil')}>
+              ✏️ Modifier mes infos
+            </button>
+            <button className="btn btn-secondary" onClick={handleDeconnexion}>
+              🚪 Déconnexion
+            </button>
+          </div>
         </div>
 
         <div className="stats-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>

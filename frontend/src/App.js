@@ -20,6 +20,7 @@ import Annonces      from './pages/Annonces';
 import CreerMotDePasse  from './pages/CreerMotDePasse';
 import MembreLogin      from './pages/MembreLogin';
 import MembreDashboard  from './pages/MembreDashboard';
+import MembreModifierProfil from './pages/MembreModifierProfil';
 
 // Protège les routes admin
 const RouteProtegee = ({ children }) => {
@@ -57,6 +58,9 @@ const App = () => {
             <Route path="/membres" element={
               <RouteProtegee><Layout><Membres /></Layout></RouteProtegee>
             }/>
+            <Route path="/membre/modifier-profil" element={
+  <RouteMembreProtegee><MembreModifierProfil /></RouteMembreProtegee>
+}/>
             <Route path="/membres/:id/modifier" element={
   <RouteProtegee><Layout><ModifierMembre /></Layout></RouteProtegee>
 }/>
