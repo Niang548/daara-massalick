@@ -54,3 +54,6 @@ export const getMonProfil = () => API.get('/membre-auth/mon-profil', {
 export const modifierMonProfil = (data) => API.put('/membre-auth/mon-profil', data, {
   headers: { Authorization: `Bearer ${localStorage.getItem('membre_token')}` }
 });
+export const getXassidaMembre = () => API.get('/membre-auth/xassida', {
+  headers: { Authorization: `Bearer ${localStorage.getItem('membre_token')}` }
+});

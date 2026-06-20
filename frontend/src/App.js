@@ -21,6 +21,7 @@ import CreerMotDePasse  from './pages/CreerMotDePasse';
 import MembreLogin      from './pages/MembreLogin';
 import MembreDashboard  from './pages/MembreDashboard';
 import MembreModifierProfil from './pages/MembreModifierProfil';
+import MembreXassida from './pages/MembreXassida';
 
 // Protège les routes admin
 const RouteProtegee = ({ children }) => {
@@ -60,6 +61,9 @@ const App = () => {
             }/>
             <Route path="/membre/modifier-profil" element={
   <RouteMembreProtegee><MembreModifierProfil /></RouteMembreProtegee>
+}/>
+<Route path="/membre/xassida" element={
+  <RouteMembreProtegee><MembreXassida /></RouteMembreProtegee>
 }/>
             <Route path="/membres/:id/modifier" element={
   <RouteProtegee><Layout><ModifierMembre /></Layout></RouteProtegee>

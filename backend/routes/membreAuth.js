@@ -132,5 +132,13 @@ router.put('/mon-profil', jwtMiddleware, async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 });
+router.get('/xassida', jwtMiddleware, async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT * FROM xassida ORDER BY date_ajout DESC');
+    res.json({ success: true, data: rows });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
 
 module.exports = router;

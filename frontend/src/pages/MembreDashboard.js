@@ -76,6 +76,11 @@ const MembreDashboard = () => {
           </div>
         </div>
       </div>
+      <div className="card" style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+        <button className="btn btn-primary" onClick={() => navigate('/membre/xassida')}>
+          📚 Bibliothèque Xassida
+        </button>
+      </div>
 
       <div className="card">
         <div className="card-title">💰 Mes cotisations</div>
