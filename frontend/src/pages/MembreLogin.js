@@ -5,7 +5,7 @@ import { loginMembre } from '../services/api';
 import { useMembreAuth } from '../context/MembreAuthContext';
 
 const MembreLogin = () => {
-  const [form, setForm]             = useState({ email: '', mot_de_passe: '' });
+  const [form, setForm] = useState({ email: '', mot_de_passe: '' });
   const [chargement, setChargement] = useState(false);
   const { connexionMembre } = useMembreAuth();
   const navigate = useNavigate();
@@ -26,13 +26,65 @@ const MembreLogin = () => {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-card">
-        <h1>⭐ Daara Massalick</h1>
-        <p>Espace membre</p>
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundImage: 'url(/bg-login.jpg)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      position: 'relative',
+    }}>
+      {/* Superposition sombre pour lisibilité */}
+      <div style={{
+        position: 'absolute',
+        top: 0, left: 0, right: 0, bottom: 0,
+        background: 'rgba(0, 0, 0, 0.55)',
+      }} />
+
+      {/* Carte de connexion */}
+      <div style={{
+        position: 'relative',
+        zIndex: 1,
+        background: 'rgba(255, 255, 255, 0.96)',
+        borderRadius: '20px',
+        padding: '44px 40px',
+        width: '100%',
+        maxWidth: '420px',
+        boxShadow: '0 25px 60px rgba(0,0,0,0.4)',
+      }}>
+        {/* Logo */}
+        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+          <img
+            src="/logo.jpg"
+            alt="Logo Daara Massalick"
+            style={{
+              width: '90px',
+              height: '90px',
+              borderRadius: '50%',
+              objectFit: 'cover',
+              border: '3px solid #1a472a',
+              marginBottom: '14px',
+            }}
+            onError={(e) => { e.target.style.display = 'none'; }}
+          />
+          <h1 style={{
+            fontSize: '22px',
+            fontWeight: '700',
+            color: '#1a472a',
+            marginBottom: '4px',
+          }}>
+            Daara Massalick
+          </h1>
+          <p style={{ fontSize: '13px', color: '#888' }}>
+            Espace membre
+          </p>
+        </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
+          <div className="form-group" style={{ marginBottom: '16px' }}>
             <label>Email</label>
             <input
               type="email"
@@ -42,7 +94,7 @@ const MembreLogin = () => {
               required
             />
           </div>
-          <div className="form-group" style={{ marginBottom: 16 }}>
+          <div className="form-group" style={{ marginBottom: '24px' }}>
             <label>Mot de passe</label>
             <input
               type="password"
@@ -52,7 +104,12 @@ const MembreLogin = () => {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary" disabled={chargement}>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={chargement}
+            style={{ width: '100%', justifyContent: 'center', padding: '12px' }}
+          >
             {chargement ? 'Connexion...' : '🔐 Se connecter'}
           </button>
         </form>
