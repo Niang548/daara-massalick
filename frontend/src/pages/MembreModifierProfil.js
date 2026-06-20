@@ -6,7 +6,8 @@ import { getMonProfil, modifierMonProfil } from '../services/api';
 const MembreModifierProfil = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    prenom: '', nom: '', telephone: '', email: '', adresse: '', contact_urgence: ''
+    prenom: '', nom: '', telephone: '', email: '',
+    adresse: '', contact_urgence: '', date_naissance: '', niveau_coranique: ''
   });
   const [chargementPage, setChargementPage] = useState(true);
   const [chargement, setChargement] = useState(false);
@@ -22,7 +23,9 @@ const MembreModifierProfil = () => {
           telephone: p.telephone || '',
           email: p.email || '',
           adresse: p.adresse || '',
-          contact_urgence: p.contact_urgence || ''
+          contact_urgence: p.contact_urgence || '',
+          date_naissance: p.date_naissance ? p.date_naissance.split('T')[0] : '',
+          niveau_coranique: p.niveau_coranique || ''
         });
       } catch (err) {
         toast.error('Erreur lors du chargement du profil');
@@ -105,6 +108,25 @@ const MembreModifierProfil = () => {
                 onChange={handleChange}
                 placeholder="votre@email.com"
               />
+            </div>
+            <div className="form-group">
+              <label>Date de naissance</label>
+              <input
+                type="date"
+                name="date_naissance"
+                value={form.date_naissance}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label>Niveau coranique</label>
+              <select name="niveau_coranique" value={form.niveau_coranique} onChange={handleChange}>
+                <option value="">Sélectionner</option>
+                <option value="debutant">Débutant</option>
+                <option value="intermediaire">Intermédiaire</option>
+                <option value="avance">Avancé</option>
+                <option value="hafiz">Hafiz</option>
+              </select>
             </div>
             <div className="form-group full-width">
               <label>Adresse</label>

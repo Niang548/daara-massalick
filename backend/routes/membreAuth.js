@@ -104,7 +104,7 @@ router.get('/mes-cotisations', jwtMiddleware, async (req, res) => {
 router.get('/mon-profil', jwtMiddleware, async (req, res) => {
   try {
     const [rows] = await db.query(
-      'SELECT id, prenom, nom, telephone, email, adresse, statut, niveau_coranique, contact_urgence, date_inscription FROM membres WHERE id = ?',
+      'SELECT id, prenom, nom, telephone, email, adresse, statut, niveau_coranique, contact_urgence, date_naissance, date_inscription FROM membres WHERE id = ?',
       [req.membreId]
     );
     if (rows.length === 0)
@@ -116,16 +116,16 @@ router.get('/mon-profil', jwtMiddleware, async (req, res) => {
 });
 router.put('/mon-profil', jwtMiddleware, async (req, res) => {
   try {
-    const { prenom, nom, telephone, email, adresse, contact_urgence } = req.body;
+    const { prenom, nom, telephone, email, adresse, contact_urgence, date_naissance, niveau_coranique } = req.body;
 
     if (!prenom || !nom || !telephone)
       return res.status(400).json({ success: false, message: 'Prénom, nom et téléphone sont obligatoires' });
 
     await db.query(
       `UPDATE membres 
-       SET prenom = ?, nom = ?, telephone = ?, email = ?, adresse = ?, contact_urgence = ?
+       SET prenom = ?, nom = ?, telephone = ?, email = ?, adresse = ?, contact_urgence = ?, date_naissance = ?, niveau_coranique = ?
        WHERE id = ?`,
-      [prenom, nom, telephone, email, adresse, contact_urgence, req.membreId]
+      [prenom, nom, telephone, email, adresse, contact_urgence, date_naissance || null, niveau_coranique || null, req.membreId]
     );
 
     res.json({ success: true, message: 'Profil mis à jour avec succès' });
