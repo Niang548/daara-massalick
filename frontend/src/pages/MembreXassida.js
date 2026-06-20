@@ -49,9 +49,11 @@ const MembreXassida = () => {
                 <p>{x.auteur || 'Auteur inconnu'}</p>
                 <p style={{ fontSize: 11 }}>{x.langue} — {x.categorie || 'Sans catégorie'}</p>
                 <div className="book-actions">
+                  
                   {x.fichier_pdf && (
                     
-                    <a href={'https://daara-massalick-backend.onrender.com${x.fichier_pdf}'}
+                      // eslint-disable-next-line no-template-curly-in-string
+                      <a href={'https://daara-massalick-backend.onrender.com${x.fichier_pdf}'}
                       target="_blank" rel="noreferrer"
                       className="btn btn-secondary btn-sm"
                     >
@@ -60,7 +62,8 @@ const MembreXassida = () => {
                   )}
                   {x.fichier_audio && (
                     
-                     <a href={'https://daara-massalick-backend.onrender.com${x.fichier_audio}'}
+                      // eslint-disable-next-line no-template-curly-in-string
+                     <a href={`https://daara-massalick-backend.onrender.com${x.fichier_audio}`}
                       target ="_blank" rel="noreferrer"
                       className="btn btn-secondary btn-sm"
                     >
