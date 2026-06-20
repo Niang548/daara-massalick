@@ -76,9 +76,15 @@ const MembreDashboard = () => {
           </div>
         </div>
       </div>
-      <div className="card" style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+      <div className="card" style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
         <button className="btn btn-primary" onClick={() => navigate('/membre/xassida')}>
           📚 Bibliothèque Xassida
+        </button>
+        <button className="btn btn-primary" onClick={() => navigate('/membre/annonces')}>
+          📢 Annonces
+        </button>
+        <button className="btn btn-primary" onClick={() => navigate('/membre/medias')}>
+          🖼️ Médiathèque
         </button>
       </div>
 

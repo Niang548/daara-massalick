@@ -57,3 +57,11 @@ export const modifierMonProfil = (data) => API.put('/membre-auth/mon-profil', da
 export const getXassidaMembre = () => API.get('/membre-auth/xassida', {
   headers: { Authorization: `Bearer ${localStorage.getItem('membre_token')}` }
 });
+export const getAnnoncesMembre = () => API.get('/membre-auth/annonces', {
+  headers: { Authorization: `Bearer ${localStorage.getItem('membre_token')}` }
+});
+
+export const getMediasMembre = (params) => API.get('/membre-auth/medias', {
+  params,
+  headers: { Authorization: `Bearer ${localStorage.getItem('membre_token')}` }
+});

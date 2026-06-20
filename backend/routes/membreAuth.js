@@ -140,5 +140,29 @@ router.get('/xassida', jwtMiddleware, async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 });
+router.get('/annonces', jwtMiddleware, async (req, res) => {
+  try {
+    const [rows] = await db.query(
+      'SELECT * FROM annonces WHERE publie = TRUE ORDER BY date_publication DESC'
+    );
+    res.json({ success: true, data: rows });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+router.get('/medias', jwtMiddleware, async (req, res) => {
+  try {
+    const { type } = req.query;
+    let query = 'SELECT * FROM medias';
+    const params = [];
+    if (type) { query += ' WHERE type = ?'; params.push(type); }
+    query += ' ORDER BY date_ajout DESC';
+    const [rows] = await db.query(query, params);
+    res.json({ success: true, data: rows });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
 
 module.exports = router;
