@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../config/database');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { envoyerMessageContact } = require('../services/emailService');
 
 router.post('/creer-mot-de-passe/:token', async (req, res) => {
   try {
@@ -163,6 +164,31 @@ router.get('/medias', jwtMiddleware, async (req, res) => {
     query += ' ORDER BY date_ajout DESC';
     const [rows] = await db.query(query, params);
     res.json({ success: true, data: rows });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+router.post('/contact', jwtMiddleware, async (req, res) => {
+  try {
+    const { sujet, message } = req.body;
+
+    if (!sujet || !message)
+      return res.status(400).json({ success: false, message: 'Le sujet et le message sont obligatoires' });
+
+    const [rows] = await db.query(
+      'SELECT prenom, nom, email FROM membres WHERE id = ?',
+      [req.membreId]
+    );
+
+    if (rows.length === 0)
+      return res.status(404).json({ success: false, message: 'Membre introuvable' });
+
+    const membre = rows[0];
+    const nomComplet = `${membre.prenom} ${membre.nom}`;
+
+    await envoyerMessageContact(nomComplet, membre.email, sujet, message);
+
+    res.json({ success: true, message: 'Votre message a été envoyé à l\'administration' });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

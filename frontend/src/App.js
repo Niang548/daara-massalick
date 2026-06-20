@@ -25,6 +25,7 @@ import MembreModifierProfil from './pages/MembreModifierProfil';
 import MembreXassida     from './pages/MembreXassida';
 import MembreAnnonces    from './pages/MembreAnnonces';
 import MembreMedias      from './pages/MembreMedias';
+import MembreContact     from './pages/MembreContact';
 
 const RouteProtegee = ({ children }) => {
   const { admin, loading } = useAuth();
@@ -104,6 +105,9 @@ const App = () => {
             <Route path="/membre/medias" element={
               <RouteMembreProtegee><LayoutMembre><MembreMedias /></LayoutMembre></RouteMembreProtegee>
             }/>
+            <Route path="/membre/contact" element={
+  <RouteMembreProtegee><LayoutMembre><MembreContact /></LayoutMembre></RouteMembreProtegee>
+}/>
           </Routes>
         </BrowserRouter>
       </MembreAuthProvider>

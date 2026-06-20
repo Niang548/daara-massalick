@@ -17,6 +17,7 @@ const SidebarMembre = () => {
     { to: '/membre/xassida',         icon: '📚', label: 'Xassida'           },
     { to: '/membre/annonces',        icon: '📢', label: 'Annonces'          },
     { to: '/membre/medias',          icon: '🖼️', label: 'Médiathèque'      },
+    { to: '/membre/contact',         icon: '✉️', label: 'Contact'           },
   ];
 
   return (

@@ -65,3 +65,6 @@ export const getMediasMembre = (params) => API.get('/membre-auth/medias', {
   params,
   headers: { Authorization: `Bearer ${localStorage.getItem('membre_token')}` }
 });
+export const envoyerMessageContact = (data) => API.post('/membre-auth/contact', data, {
+  headers: { Authorization: `Bearer ${localStorage.getItem('membre_token')}` }
+});
