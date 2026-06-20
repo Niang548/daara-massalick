@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { MembreAuthProvider, useMembreAuth } from './context/MembreAuthContext';
 import Sidebar from './components/Sidebar';
+import SidebarMembre from './components/SidebarMembre';
 
 import Login        from './pages/Login';
 import Dashboard     from './pages/Dashboard';
@@ -17,22 +18,20 @@ import Xassida       from './pages/Xassida';
 import Medias        from './pages/Medias';
 import Annonces      from './pages/Annonces';
 
-import CreerMotDePasse  from './pages/CreerMotDePasse';
-import MembreLogin      from './pages/MembreLogin';
-import MembreDashboard  from './pages/MembreDashboard';
+import CreerMotDePasse   from './pages/CreerMotDePasse';
+import MembreLogin       from './pages/MembreLogin';
+import MembreDashboard   from './pages/MembreDashboard';
 import MembreModifierProfil from './pages/MembreModifierProfil';
-import MembreXassida from './pages/MembreXassida';
-import MembreAnnonces from './pages/MembreAnnonces';
-import MembreMedias from './pages/MembreMedias';
+import MembreXassida     from './pages/MembreXassida';
+import MembreAnnonces    from './pages/MembreAnnonces';
+import MembreMedias      from './pages/MembreMedias';
 
-// Protège les routes admin
 const RouteProtegee = ({ children }) => {
   const { admin, loading } = useAuth();
   if (loading) return <div className="loader">Chargement...</div>;
   return admin ? children : <Navigate to="/login" />;
 };
 
-// Protège les routes membre
 const RouteMembreProtegee = ({ children }) => {
   const { membre, loading } = useMembreAuth();
   if (loading) return <div className="loader">Chargement...</div>;
@@ -42,6 +41,13 @@ const RouteMembreProtegee = ({ children }) => {
 const Layout = ({ children }) => (
   <>
     <Sidebar />
+    <div className="main-content">{children}</div>
+  </>
+);
+
+const LayoutMembre = ({ children }) => (
+  <>
+    <SidebarMembre />
     <div className="main-content">{children}</div>
   </>
 );
@@ -61,21 +67,9 @@ const App = () => {
             <Route path="/membres" element={
               <RouteProtegee><Layout><Membres /></Layout></RouteProtegee>
             }/>
-            <Route path="/membre/modifier-profil" element={
-  <RouteMembreProtegee><MembreModifierProfil /></RouteMembreProtegee>
-}/>
-<Route path="/membre/xassida" element={
-  <RouteMembreProtegee><MembreXassida /></RouteMembreProtegee>
-}/>
-<Route path="/membre/annonces" element={
-  <RouteMembreProtegee><MembreAnnonces /></RouteMembreProtegee>
-}/>
-<Route path="/membre/medias" element={
-  <RouteMembreProtegee><MembreMedias /></RouteMembreProtegee>
-}/>
             <Route path="/membres/:id/modifier" element={
-  <RouteProtegee><Layout><ModifierMembre /></Layout></RouteProtegee>
-}/>
+              <RouteProtegee><Layout><ModifierMembre /></Layout></RouteProtegee>
+            }/>
             <Route path="/inscription" element={
               <RouteProtegee><Layout><Inscription /></Layout></RouteProtegee>
             }/>
@@ -96,7 +90,19 @@ const App = () => {
             <Route path="/creer-mot-de-passe/:token" element={<CreerMotDePasse />} />
             <Route path="/membre/login" element={<MembreLogin />} />
             <Route path="/membre" element={
-              <RouteMembreProtegee><MembreDashboard /></RouteMembreProtegee>
+              <RouteMembreProtegee><LayoutMembre><MembreDashboard /></LayoutMembre></RouteMembreProtegee>
+            }/>
+            <Route path="/membre/modifier-profil" element={
+              <RouteMembreProtegee><LayoutMembre><MembreModifierProfil /></LayoutMembre></RouteMembreProtegee>
+            }/>
+            <Route path="/membre/xassida" element={
+              <RouteMembreProtegee><LayoutMembre><MembreXassida /></LayoutMembre></RouteMembreProtegee>
+            }/>
+            <Route path="/membre/annonces" element={
+              <RouteMembreProtegee><LayoutMembre><MembreAnnonces /></LayoutMembre></RouteMembreProtegee>
+            }/>
+            <Route path="/membre/medias" element={
+              <RouteMembreProtegee><LayoutMembre><MembreMedias /></LayoutMembre></RouteMembreProtegee>
             }/>
           </Routes>
         </BrowserRouter>

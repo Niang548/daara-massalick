@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getXassidaMembre } from '../services/api';
 
 const MembreXassida = () => {
-  const navigate = useNavigate();
   const [liste, setListe] = useState([]);
   const [chargement, setChargement] = useState(true);
 
@@ -27,17 +25,12 @@ const MembreXassida = () => {
   }
 
   return (
-    <div style={{ maxWidth: 900, margin: '40px auto', padding: '0 20px' }}>
-      <div className="card">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-          <div className="card-title" style={{ marginBottom: 0, borderBottom: 'none', paddingBottom: 0 }}>
-            📚 Bibliothèque Xassida
-          </div>
-          <button className="btn btn-secondary" onClick={() => navigate('/membre')}>
-            ← Retour
-          </button>
-        </div>
+    <div>
+      <div className="page-header">
+        <h1>📚 Bibliothèque Xassida</h1>
+      </div>
 
+      <div className="card">
         {liste.length === 0 ? (
           <div className="empty-state"><p>Aucun xassida disponible pour l'instant</p></div>
         ) : (
@@ -49,11 +42,10 @@ const MembreXassida = () => {
                 <p>{x.auteur || 'Auteur inconnu'}</p>
                 <p style={{ fontSize: 11 }}>{x.langue} — {x.categorie || 'Sans catégorie'}</p>
                 <div className="book-actions">
-                  
                   {x.fichier_pdf && (
                     
                       // eslint-disable-next-line no-template-curly-in-string
-                      <a href={'https://daara-massalick-backend.onrender.com${x.fichier_pdf}'}
+                     <a href={`https://daara-massalick-backend.onrender.com${x.fichier_pdf}`}
                       target="_blank" rel="noreferrer"
                       className="btn btn-secondary btn-sm"
                     >
@@ -64,7 +56,7 @@ const MembreXassida = () => {
                     
                       // eslint-disable-next-line no-template-curly-in-string
                      <a href={`https://daara-massalick-backend.onrender.com${x.fichier_audio}`}
-                      target ="_blank" rel="noreferrer"
+                      target="_blank" rel="noreferrer"
                       className="btn btn-secondary btn-sm"
                     >
                       🎵 Audio
